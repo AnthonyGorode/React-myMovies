@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Header, MovieList, MovieDetails, Loading } from './components';
 import dataMovies from './data';
+import apiMovie from './config/api.movie';
 
 class App extends Component {
 
@@ -14,12 +15,17 @@ class App extends Component {
     }
 
     setTimeout(() => {
-      console.log("test");
       this.setState({
         movies: dataMovies,
         loaded: true
       })
     }, 2000);
+  }
+
+  componentDidMount(){
+    apiMovie.get('/discover/movie')
+            .then(response => console.log(response))
+            .catch(err => console.log(err));
   }
 
 
