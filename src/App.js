@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Header, MovieList, MovieDetails, Loading, SearchBar } from './components';
-import apiMovie from './config/api.movie';
+import apiMovie, { apiMovieMap } from './config/api.movie';
 
 class App extends Component {
 
@@ -10,28 +10,31 @@ class App extends Component {
     this.state = {
       movies: null,
       loaded: false,
+      language: 'fr-FR',
       selectedMovie: 0
     }
   }
 
-  componentDidMount(){
-    apiMovie.get('/discover/movie')
+  componentDidMount = () => {
+    apiMovie.get('/discover/movie?language='+this.state.language)
             .then(response => response.data.results)
             .then( moviesApi => {
-              const movies = moviesApi.map( m => ({
-                img:'https://image.tmdb.org/t/p/w500' + m.poster_path,
-                title: m.title,
-                details: `${m.release_date} | ${m.vote_average}/10 (${m.vote_count})`,
-                description: m.overview
-              }))
+              const movies = moviesApi.map(apiMovieMap)
               this.updateMovies(movies);
             })
             .catch(err => console.log(err));
   }
 
-  updateMovies(movies){
+  updateMovies = (movies) => {
     this.setState({
       movies,
+      loaded: true
+    })
+  }
+
+  updateLanguage = (language) => {
+    this.setState({
+      language,
       loaded: true
     })
   }
