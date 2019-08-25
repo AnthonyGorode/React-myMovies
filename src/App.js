@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       movies: null,
+      favoris: [],
       loaded: false,
       language: 'fr-FR',
       selectedMovie: 0
@@ -28,13 +29,6 @@ class App extends Component {
             .catch(err => console.log(err));
   }
 
-  updateMovies = (movies) => {
-    this.setState({
-      movies,
-      loaded: true
-    })
-  }
-
   updateLanguage = (language) => {
     this.setState({
       language,
@@ -42,12 +36,36 @@ class App extends Component {
     })
   }
 
+  updateMovies = (movies) => {
+    this.setState({
+      movies,
+      loaded: true
+    })
+  }
 
   updateSelectedMovie = (index) => {
     // met à jour selectedMovie avec le nouvel index
     this.setState({
       selectedMovie : index
     });
+  }
+
+  addFavori = (title) => {
+    const favoris = this.state.favoris.slice();
+    const film = this.state.movies.find(m => m.title === title);
+    favoris.push(film);
+    this.setState({
+      favoris
+    });
+  }
+
+  deleteFavori = (title) => {
+    const favoris = this.state.favoris.slice();
+    const index = this.state.favoris.findIndex( f => f.title === title);
+    favoris.splice(index,1);
+    this.setState({
+      favoris
+    })
   }
 
   render() {
@@ -64,6 +82,9 @@ class App extends Component {
                 updateSelectedMovie={this.updateSelectedMovie}
                 movies={this.state.movies}
                 selectedMovie={this.state.selectedMovie}
+                addFavori={this.addFavori}
+                deleteFavori={this.deleteFavori}
+                favoris={this.state.favoris.map(f => f.title)}
               />
              ) }/>
             <Route path="/favoris" component={ Favoris } />
