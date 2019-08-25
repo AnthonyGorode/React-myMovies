@@ -1,7 +1,13 @@
 import React from 'react';
+import { FavorisList } from './components';
 
-export default () => {
+export default (props) => {
     return (
-        <h1>Favoris</h1>
+        <div className="d-flex flex-row flex-fill pt-4 p-2" >
+            <FavorisList 
+                favoris={props.favoris}
+                deleteFavori={props.deleteFavori}
+            />
+        </div>
     );
 }

@@ -87,7 +87,12 @@ class App extends Component {
                 favoris={this.state.favoris.map(f => f.title)}
               />
              ) }/>
-            <Route path="/favoris" component={ Favoris } />
+            <Route path="/favoris" render={ (props) => (
+              <Favoris 
+                favoris={this.state.favoris}
+                deleteFavori={this.deleteFavori}
+              />
+            ) } />
             <Redirect to="/films" />
           </Switch>
         </div>
