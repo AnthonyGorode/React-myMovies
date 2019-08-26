@@ -3,6 +3,7 @@ import { Header } from './components';
 import Films from './features/films';
 import Favoris from './features/favoris';
 import apiMovie, { apiMovieMap } from './config/api.movie';
+import apiFirebase from './config/api.firebase';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 class App extends Component {
@@ -12,7 +13,7 @@ class App extends Component {
 
     this.state = {
       movies: null,
-      favoris: [],
+      favoris: null,
       loaded: false,
       language: 'fr-FR',
       selectedMovie: 0
@@ -27,12 +28,25 @@ class App extends Component {
               this.updateMovies(movies);
             })
             .catch(err => console.log(err));
+
+    apiFirebase.get('favoris.json')
+               .then(response => {
+                 let favoris = response.data ? response.data : [];
+                 this.updateFavori(favoris);
+               })
   }
 
   updateLanguage = (language) => {
     this.setState({
       language,
-      loaded: true
+      loaded: this.state.favoris ? true : false
+    })
+  }
+
+  updateFavori = (favoris) => {
+    this.setState({
+      favoris,
+      loaded: this.state.movies ? true : false
     })
   }
 
@@ -56,6 +70,8 @@ class App extends Component {
     favoris.push(film);
     this.setState({
       favoris
+    }, () => {
+      this.saveFavori();
     });
   }
 
@@ -65,7 +81,13 @@ class App extends Component {
     favoris.splice(index,1);
     this.setState({
       favoris
+    }, () => {
+      this.saveFavori();
     })
+  }
+
+  saveFavori = () => {
+    apiFirebase.put('favoris.json',this.state.favoris)
   }
 
   render() {
@@ -84,11 +106,13 @@ class App extends Component {
                 selectedMovie={this.state.selectedMovie}
                 addFavori={this.addFavori}
                 deleteFavori={this.deleteFavori}
-                favoris={this.state.favoris.map(f => f.title)}
+                favoris={this.state.favoris}
               />
              ) }/>
             <Route path="/favoris" render={ (props) => (
               <Favoris 
+                {...props}
+                loaded={this.state.loaded}
                 favoris={this.state.favoris}
                 deleteFavori={this.deleteFavori}
               />
