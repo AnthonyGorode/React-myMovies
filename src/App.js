@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { Header } from './components';
-import Films from './features/films';
-import Favoris from './features/favoris';
 import apiMovie, { apiMovieMap } from './config/api.movie';
 import apiFirebase from './config/api.firebase';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import Loadable from 'react-loadable';
+
+const LazyFilms = Loadable({
+  loader: () => import(/* webpackChunkName: 'LazyFilms' */'./features/films'),
+  loading: () => <h1>Loading ...</h1>
+})
+
+const LazyFavoris = Loadable({
+  loader: () => import(/* webpackChunkName: 'LazyFavoris' */'./features/favoris'),
+  loading: () => <h1>Loading ...</h1>
+})
 
 class App extends Component {
 
@@ -96,26 +105,9 @@ class App extends Component {
         <div className="App d-flex flex-column">
           <Header />
           <Switch>
-            <Route path="/films" render={ (props) => (
-              <Films
-                {...props}
-                loaded={this.state.loaded}
-                updateMovies={this.updateMovies}
-                updateSelectedMovie={this.updateSelectedMovie}
-                movies={this.state.movies}
-                selectedMovie={this.state.selectedMovie}
-                addFavori={this.addFavori}
-                deleteFavori={this.deleteFavori}
-                favoris={this.state.favoris}
-              />
+            <Route path="/films" component={ LazyFilms }/>
              ) }/>
-            <Route path="/favoris" render={ (props) => (
-              <Favoris 
-                {...props}
-                loaded={this.state.loaded}
-                favoris={this.state.favoris}
-                deleteFavori={this.deleteFavori}
-              />
+            <Route path="/favoris" component={ LazyFavoris }/>
             ) } />
             <Redirect to="/films" />
           </Switch>
