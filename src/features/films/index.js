@@ -2,8 +2,9 @@ import React from 'react';
 import { MovieDetails, MovieList, SearchBar } from './components';
 import Loading from '../../components/utils/Loading';
 import { connect } from 'react-redux';
-import { moviesIsLoadingSelector, moviesListSelector, favorisListName, moviesSelectedMovieSelector } from '../../store/selectors';
+import { moviesIsLoadingSelector, moviesListSelector, favorisListName, moviesSelectedMovieSelector, moviesDefaultSelector } from '../../store/selectors';
 import { fetchMovies, setSelectedMovie, tryAddFavori, tryRemoveFavori } from '../../store/actions';
+import TitleDefault from '../../components/utils/TitleDefault';
  
 const Films = (props) => {
     return (
@@ -13,18 +14,23 @@ const Films = (props) => {
                 props.isLoading ? (
                     <Loading />
                 ) : (
-                    <div className="d-flex flex-row flex-fill pt-4 p-2" >
-                        <MovieList 
-                            movies={props.movies} 
-                            updateSelectedMovie={props.setSelectedMovie}
-                            favoris={props.favorisListName }
-                            addFavori={ props.tryAddFavori }
-                            deleteFavori={ props.tryRemoveFavori } 
-                        />
-                        <MovieDetails 
-                            movie={props.selectedMovie} 
-                        />
-                    </div>
+                    <> 
+                        <TitleDefault 
+                            movieDefault={props.movieBoolDefault}
+                        />       
+                        <div className="d-flex flex-row flex-fill pt-4 p-2" >
+                            <MovieList 
+                                movies={props.movies}
+                                updateSelectedMovie={props.setSelectedMovie}
+                                favoris={props.favorisListName }
+                                addFavori={ props.tryAddFavori }
+                                deleteFavori={ props.tryRemoveFavori } 
+                            />
+                            <MovieDetails 
+                                movie={props.selectedMovie} 
+                            />
+                        </div>
+                    </>
                 )
             }
         </>
@@ -33,6 +39,7 @@ const Films = (props) => {
 
 export default connect(state => ({
     isLoading: moviesIsLoadingSelector(state),
+    movieBoolDefault: moviesDefaultSelector(state),
     movies: moviesListSelector(state),
     favorisListName: favorisListName(state),
     selectedMovie: moviesSelectedMovieSelector(state)

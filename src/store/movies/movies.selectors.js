@@ -7,6 +7,11 @@ export const moviesIsLoadingSelector = createSelector(
     movies => movies.isLoading
 )
 
+export const moviesDefaultSelector = createSelector(
+    [moviesSelector],
+    movieBool => movieBool.moviesDefault
+)
+
 export const moviesListSelector = createSelector(
     [moviesSelector],
     movies => movies.data

@@ -16,6 +16,13 @@ export const apiMovieMap = m => ({
     description: m.overview
 })
 
+export const apiMovieDefault = () => {
+    return apiMovie.get('/discover/movie?language=fr-FR')
+                   .then(response => response.data.results)
+                   .then( moviesApi => moviesApi.map(apiMovieMap))
+                   .catch(err => console.log(err));
+}
+
 export default {
     searchMovies: filter => {
         const query = '?' + Object.keys(filter).map(k => `${k}=${filter[k]}&`).join('');

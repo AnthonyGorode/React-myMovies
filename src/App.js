@@ -3,7 +3,7 @@ import { Header } from './components';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
-import { fetchFavoris } from './store/actions';
+import { fetchFavoris, fetchMoviesDefault } from './store/actions';
 
 const LazyFilms = Loadable({
   loader: () => import(/* webpackChunkName: 'LazyFilms' */'./features/films'),
@@ -31,8 +31,7 @@ class App extends Component {
     //              let favoris = response.data ? response.data : [];
     //              this.updateFavori(favoris);
     //            })
-
-    this.props.fetchFavoris();
+    this.props.fetchMoviesDefault().then(() => this.props.fetchFavoris())
   }
 
   render() {
@@ -53,4 +52,5 @@ class App extends Component {
 
 export default withRouter(connect(null,{
   fetchFavoris,
+  fetchMoviesDefault
 })(App));
