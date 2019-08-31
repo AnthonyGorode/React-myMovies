@@ -26,8 +26,6 @@ export const fetchMoviesError = (error) => ({
 export const fetchMovies = (filter) => dispatch => {
     dispatch(requestMovies());
 
-    const query = '?' + Object.keys(filter).map(k => `${k}=${filter[k]}&`).join('');
-
     return apiMovieRequest.searchMovies(filter).then(
         movies => dispatch(fetchMoviesSuccess(movies)),
         error => dispatch(fetchMoviesError(error))
