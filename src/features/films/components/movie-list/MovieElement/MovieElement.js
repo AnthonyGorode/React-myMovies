@@ -19,7 +19,7 @@ export default class MovieElement extends Component {
                         { this.props.isFavori ? (
                             <button onClick={ () => {this.props.deleteFavori(this.props.movie.title)} } className="btn btn-small btn-danger">Remove</button>
                         ) : (
-                            <button onClick={() => { this.props.addFavori(this.props.movie.title) }} className="btn btn-small btn-primary">Add</button>
+                            <button onClick={() => { this.props.addFavori(this.props.movie) }} className="btn btn-small btn-primary">Add</button>
 
                         ) }
                     </div>

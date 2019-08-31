@@ -30,7 +30,7 @@ export const fetchFavorisError = (error) => ({
 export const fetchFavoris = () => dispatch => {
     dispatch(requestFavoris());
 
-    return apiFirebaseRequest.fetchFavoris.then(
+    return apiFirebaseRequest.fetchFavoris().then(
         favoris => dispatch(fetchFavorisSuccess(favoris)),
         error => dispatch(fetchFavorisError(error))
     )
@@ -47,7 +47,7 @@ export const addFavoriError = error => ({
 })
 
 export const tryAddFavori = movie => (dispatch, getState) => {
-    const favoris = [...getState.favoris.data, movie];
+    const favoris = [...getState().favoris.data, movie];
     return apiFirebaseRequest.saveFavoris(favoris).then(
         () => dispatch(addFavoriSuccess(favoris)),
         error => dispatch(addFavoriError(error))

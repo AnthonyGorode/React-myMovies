@@ -8,7 +8,7 @@ import { fetchMovies, setSelectedMovie, tryAddFavori, tryRemoveFavori } from '..
 const Films = (props) => {
     return (
         <>
-            <SearchBar updateMovies={props.fetchMovies} />
+            <SearchBar fetchMovies={props.fetchMovies} />
             {
                 props.isLoading ? (
                     <Loading />

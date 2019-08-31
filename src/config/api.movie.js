@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 
-const apiMovie = axios.create({
+export const apiMovie = axios.create({
     baseURL: 'https://api.themoviedb.org/4'
 })
 
@@ -15,8 +15,6 @@ export const apiMovieMap = m => ({
     details: `${m.release_date} | ${m.vote_average}/10 (${m.vote_count})`,
     description: m.overview
 })
-
-export const apiMovie;
 
 export default {
     searchMovies: filter => {

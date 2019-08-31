@@ -2,7 +2,7 @@ import React from 'react';
 import Loading from '../../components/utils/Loading';
 import { FavorisList } from './components';
 import { connect } from 'react-redux';
-import { favorisListSelector } from '../../store/selectors';
+import { favorisListSelector, favorisIsLoadingSelector } from '../../store/selectors';
 import { tryRemoveFavori } from '../../store/actions';
 
 const Favoris = (props) => {
