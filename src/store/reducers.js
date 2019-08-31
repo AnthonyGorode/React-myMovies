@@ -1,4 +1,5 @@
 import movies from './movies/movies.reducers';
+import favoris from './favoris/favoris.reducers';
 // Structure du state
 // {
 //     movies: {
@@ -15,5 +16,6 @@ import movies from './movies/movies.reducers';
 // }
 
 export default {
-    movies
+    movies,
+    favoris
 }
