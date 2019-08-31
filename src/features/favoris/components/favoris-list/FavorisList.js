@@ -9,7 +9,7 @@ export default class FavorisList extends Component {
                     < FavoriElement 
                         key={ f.title + index } 
                         favori={ f } 
-                        deleteFavori={ this.props.deleteFavori }
+                        deleteFavori={ () => this.props.deleteFavori(f.title) }
                     />
                 ) ) }
             </div>
